@@ -19,6 +19,9 @@ public class SearchMapper extends ServiceLocator implements RowMapper<SearchDTO>
 		public static String[] TERM_NAME = {
 				"TERM_NAME"
 		};
+		public static String[] TRANSLATION_NAME = {
+				"TRANSLATION_NAME"
+		};
 		public static String[] ACRONYM_CATEGORY = {
 				"ACRONYM_CATEGORY"
 		};
@@ -31,6 +34,7 @@ public class SearchMapper extends ServiceLocator implements RowMapper<SearchDTO>
 	public void createCriteria() {
 		criteria.put(Field.TERM_CATEGORY[0], Field.TERM_CATEGORY);
 		criteria.put(Field.TERM_NAME[0], Field.TERM_NAME);
+		criteria.put(Field.TRANSLATION_NAME[0], Field.TRANSLATION_NAME);
 		criteria.put(Field.ACRONYM_CATEGORY[0], Field.ACRONYM_CATEGORY);
 		criteria.put(Field.ACRONYM_NAME[0], Field.ACRONYM_NAME);
 	}
@@ -40,6 +44,8 @@ public class SearchMapper extends ServiceLocator implements RowMapper<SearchDTO>
 		SearchDTO item = new SearchDTO();
 		item.setTermCategory(rs.getString(Field.TERM_CATEGORY[0]));
 		item.setTermName(rs.getString(Field.TERM_NAME[0]));
+		
+		item.setTranslationName(rs.getString(Field.TRANSLATION_NAME[0]));
 		
 		item.setAcronymCategory(rs.getString(Field.ACRONYM_CATEGORY[0]));
 		item.setAcronymName(rs.getString(Field.ACRONYM_NAME[0]));
