@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.RowMapper;
 import com.mulyadime.backend.dto.SearchDTO;
 import com.mulyadime.backend.services.ServiceLocator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SearchMapper extends ServiceLocator implements RowMapper<SearchDTO> {
 	
 	public static class Field {
@@ -49,6 +52,8 @@ public class SearchMapper extends ServiceLocator implements RowMapper<SearchDTO>
 		
 		item.setAcronymCategory(rs.getString(Field.ACRONYM_CATEGORY[0]));
 		item.setAcronymName(rs.getString(Field.ACRONYM_NAME[0]));
+		
+		log.info("{}", item.toString());
 		
 		return item;
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mulyadime.backend.dto.SearchDTO;
 import com.mulyadime.backend.mapper.SearchMapper;
+import com.mulyadime.backend.payload.SearchRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +22,8 @@ public class SearchService extends ServiceLocator {
 	
 	protected HashMap<String, String> params = new HashMap<>();
 	
-	private String query_find_all = "SELECT"
+	private String query_find_all = 
+			"SELECT"
 			+ " t.category AS term_category,"
 			+ " t.name AS term_name,"
 			+ " t.translation AS translation_name,"
@@ -29,18 +31,34 @@ public class SearchService extends ServiceLocator {
 			+ " a.name AS acronym_name"
 			+ " FROM term t"
 			+ " LEFT JOIN acronym a"
-			+ " ON LOWER(a.category) = LOWER(t.category)"
-			+ " WHERE 1=1 AND ( LOWER(t.name) LIKE ? OR LOWER(a.name) LIKE ? OR LOWER(t.translation) LIKE ?)";
+			+ " ON UPPER(a.category) = UPPER(t.category)"
+			+ " WHERE t.language = ? AND (UPPER(t.name) LIKE UPPER(?) OR UPPER(t.translation) LIKE UPPER(?))";
+//			"SELECT"
+//			+ " t.category AS term_category,"
+//			+ " t.name AS term_name,"
+//			+ " t.translation AS translation_name,"
+//			+ " a.category AS acronym_category,"
+//			+ " a.name AS acronym_name"
+//			+ " FROM term t"
+//			+ " LEFT JOIN acronym a"
+//			+ " ON LOWER(a.category) = LOWER(t.category)"
+//			+ " WHERE 1=1 AND ( LOWER(t.name) LIKE ? OR LOWER(a.name) LIKE ? OR LOWER(t.translation) LIKE ?)";
 	
-	public List<SearchDTO> getResult(String item) {
+	public List<SearchDTO> getResult(SearchRequest item) {
 		parameterReset(params);
-		params.put(SearchMapper.Field.TERM_NAME[0], item);
-		params.put(SearchMapper.Field.ACRONYM_NAME[0], item);
-		params.put(SearchMapper.Field.TRANSLATION_NAME[0], item);
+		String lang = "";
+		if (item.getLanguage()) {
+			lang = "ENGLISH";
+		} else {
+			lang = "INDONESIA";
+		}
+		params.put(SearchMapper.Field.TERM_NAME[0], item.getSearch());
+		params.put(SearchMapper.Field.ACRONYM_NAME[0], item.getSearch());
+		params.put(SearchMapper.Field.TRANSLATION_NAME[0], item.getSearch());
 		
-		String newItem = "%" + item + "%";
+		String newItem = "%" + item.getSearch() + "%";
 		
-		Object[] param = new Object[] { newItem, newItem, newItem };
+		Object[] param = new Object[] { lang, newItem, newItem };
 		
 		return jdbcTemplate.query(query_find_all, param, new SearchMapper());
 	}

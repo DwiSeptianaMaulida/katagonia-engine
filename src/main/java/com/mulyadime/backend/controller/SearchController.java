@@ -33,20 +33,25 @@ public class SearchController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			method = RequestMethod.POST,
 			value = "")
-	public void searchBy(@Valid @RequestBody SearchRequest request) {
-		
-	}
-	
-	@RequestMapping(
-			method = RequestMethod.GET,
-			value = "{search}")
-	public ResponseEntity<List<SearchDTO>> getSearchResult(@PathVariable("search") String request) {
-		log.info("Search String: {}", request);
+	public ResponseEntity<List<SearchDTO>> searchBy(@Valid @RequestBody SearchRequest request) {
+		log.info("{}", request.toString());
 		List<SearchDTO> search = svcSearch.getResult(request);
-		log.debug("{}", search);
+		log.debug("{}", search.toString());
 		
 		return ResponseEntity.ok(search);
 		
 	}
+	
+//	@RequestMapping(
+//			method = RequestMethod.GET,
+//			value = "{search}")
+//	public ResponseEntity<List<SearchDTO>> getSearchResult(@PathVariable("search") String request) {
+//		log.info("Search String: {}", request);
+////		List<SearchDTO> search = svcSearch.getResult(request);
+////		log.debug("{}", search);
+//		
+//		return ResponseEntity.ok(search);
+//		
+//	}
 
 }
