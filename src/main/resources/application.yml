@@ -5,9 +5,9 @@ backend:
     
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    url: postgres://kzidazknfvrktw:eb2b0ee83007d415f618cb5f9084b5a4c864f580d472c62a7d6a519c8267e47e@ec2-18-211-48-247.compute-1.amazonaws.com:5432/dc3ubeqr272qfr
+    username: kzidazknfvrktw
+    password: eb2b0ee83007d415f618cb5f9084b5a4c864f580d472c62a7d6a519c8267e47e
     initialization-mode: always
   jpa:
     show-sql: true
